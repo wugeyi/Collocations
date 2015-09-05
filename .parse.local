@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "Collocations": {
+      "applicationId": "iru9unSwAevXSVzcrAdkdEWNEyL2KwWfh4FjLltN"
+    },
+    "_default": {
+      "link": "Collocations"
+    }
+  }
+}
