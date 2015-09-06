@@ -1,21 +1,400 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <title>My Parse App</title>
+    <meta name="description" content="My Parse App">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/popwindow.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link href="css/form_style.css" rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    	
+</head>
+<body>
+    <div id="main">
+        <div id="current-user"></div>
+        <a id="opener" class="modal-header-btn modal-trigger btn-fixed">Add collocation</a>
+      	<div class="modal">
+                <header class="modal-header">
+                    <h1 id="popup-window-title" class="modal-header-title left">Title of Modal</h1>
+                    <button id="closer" class="modal-header-btn right modal-close" title="Close Modal">Close</button>
+                </header>
+            <div id="collocation-edit-div">
+                <div class="modal-body">
+                    <section class="modal-content">
+                            <form id="collocation-form" class="basic-grey">
+                                <label>
+                                    <span>&nbsp;&nbsp;&nbsp;Collocation :</span>
+                                    <input id="collocation-spell" type="text" name="name" placeholder="Input collocation" />
+                                </label>
 
-<html>
-  <head>
-    <title>My ParseApp site</title>
-    <style>
-    body { font-family: Helvetica, Arial, sans-serif; }
-    div { width: 800px; height: 400px; margin: 40px auto; padding: 20px; border: 2px solid #5298fc; }
-    h1 { font-size: 30px; margin: 0; }
-    p { margin: 40px 0; }
-    em { font-family: monospace; }
-    a { color: #5298fc; text-decoration: none; }
-    </style>
-  </head>
-  <body>
-    <div>
-      <h1>Congratulations! You're already hosting with Parse.</h1>
-      <p>To get started, edit this file at <em>public/index.html</em> and start adding static content.</p>
-      <p>If you want something a bit more dynamic, delete this file and check out <a href="https://parse.com/docs/hosting_guide#webapp">our hosting docs</a>.</p>
-    </div>
-  </body>
+                                <label>
+                                    <span>&nbsp;&nbsp;&nbsp;Translation :</span>
+                                    <textarea id="collocation-translation" name="message" placeholder="The translation of your collocation"></textarea>
+                                </label> 
+                                 <label>
+                                    <span>&nbsp;&nbsp;&nbsp;Subject :</span><select name="selection">
+                                    <option value="Collocations">Collocations</option>
+                                    <option value="ABC">ABC</option>
+                                    </select>
+                                </label>    
+                                <input id="collocation-submit" type="submit" class="button" value="Send" />   
+                            </form>
+                    </section>
+                </div>
+            </div>
+            <div id="example-edit-div">
+                <div class="modal-body">
+                    <section class="modal-content">
+                            <div id="collocation-detail" data-id="">
+                                  <label>
+                                    <h3 id="collocation-detail-translation"></h3>
+                                </label>
+   
+                                  <form id="collocation-example-form" class="basic-grey">
+                                      <p><input id="collocation-example-id" type="hidden" value=""></p>
+                                <label>
+                                    <span>&nbsp;&nbsp;&nbsp;Example :</span>
+                                    <input id="collocation-example-sentence" type="text" name="name" placeholder="Input example" />
+                                </label>
+
+                                <label>
+                                    <span>&nbsp;&nbsp;&nbsp;Translation :</span>
+                                    <textarea id="collocation-example-sentence-translation" name="message" placeholder="The translation of your collocation"></textarea>
+                                </label>   
+                                <input id="collocation-example-submit" type="submit" class="button" value="Send" />
+                                  </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+	   </div>
+        <div id="authentication-div" class="flat-form" style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -202px; top: 200px;">
+            <ul class="tabs">
+                <li>
+                    <a href="#login" class="active">Login</a>
+                </li>
+                <li>
+                    <a href="#register">Register</a>
+                </li>
+                <li>
+                    <a href="#reset">Reset Password</a>
+                </li>
+            </ul>
+            <div id="login" class="form-action show">
+                <h1>Login on webapp</h1>
+                <p>
+                    Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                    Maecenas sed diam eget risus varius bladit sit amet non
+                </p>
+                <form class="authentication-form" id="login-form">
+                    <ul>
+                        <li>
+                            <input type="text" id="login-name" placeholder="Username" />
+                        </li>
+                        <li>
+                            <input type="password" id="login-password" placeholder="Password" />
+                        </li>
+                        <li>
+                            <input type="submit" id="login-submit" value="Login" class="button" />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            
+            <!--/#login.form-action-->
+            <div id="register" class="form-action hide">
+                <h1>Register</h1>
+                <p>
+                    You should totally sign up for our super awesome service.
+                    It's what all the cool kids are doing nowadays.
+                </p>
+                <form class="authentication-form" id="signup-form">
+                    <ul>
+                        <li>
+                            <input type="text" placeholder="Username" id="signup-name"/>
+                        </li>
+                        <li>
+                            <input type="password" placeholder="Password" id="signup-password"/>
+                        </li>
+                        <li>
+                            <input type="submit" value="Sign Up" class="button" id="signup-submit"/>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <!--/#register.form-action-->
+            <div id="reset" class="form-action hide">
+                <h1>Reset Password</h1>
+                <p>
+                    To reset your password enter your email and your birthday
+                    and we'll send you a link to reset your password.
+                </p>
+                <form class="authentication-form">
+                    <ul>
+                        <li>
+                            <input type="text" placeholder="Email" />
+                        </li>
+                        <li>
+                            <input type="text" placeholder="Birthday" />
+                        </li>
+                        <li>
+                            <input type="submit" value="Send" class="button" />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <!--/#register.form-action-->
+        </div>
+      <div>
+            <button id="logout">Log Out</button>
+      </div>
+    <a rel="leanModal" id="authentication-a" href="#authentication-div">Sign in || Sign up</a>
+   
+      
+    <ul id="list-posts">
+    </ul>
+
+  </div>
+<script src="js/draggabilly.pkgd.js"></script>
+	<script src="js/modal.js"></script>
+  <script type="text/javascript">
+      Parse.initialize("iru9unSwAevXSVzcrAdkdEWNEyL2KwWfh4FjLltN", "WTy4AUCikkHx0HZElrgUxj6zc15Nhv6Kq2NgOxK7");    
+      var Collocation = Parse.Object.extend("Collocation");    
+      var Example = Parse.Object.extend("Example");
+      function checkLogin()
+      {
+          if(Parse.User.current())
+          {
+              //console.log("Logged in!" + Parse.User.current().get("username"));
+              $("#current-user").html("User:" + Parse.User.current().get("username"));
+              $("#logout").show();
+              $("#authentication-a").hide();
+          }else{
+              $("#current-user").html("");
+              $("#logout").hide();
+              $("#authentication-a").show();
+          }
+      }
+      
+      checkLogin();
+      
+      $("#collocation-form").submit(function(event){
+            event.preventDefault();
+            var spell = $("#collocation-spell").val();
+            var translation = $("#collocation-translation").val();
+            var user = Parse.User.current();
+            var newCollocation = new Collocation();
+            newCollocation.set("spell", spell);
+            newCollocation.set("translation", translation);
+            newCollocation.set("author", user);
+            newCollocation.save({
+                success: function(object) {
+                    getCollocations();
+                },
+                error: function(model, error) {
+                    
+                }
+            });
+        });
+      
+      $("#signup-form").submit(function(event){
+          event.preventDefault();
+          var name = $("#signup-name").val();
+          var pass = $("#signup-password").val();
+          
+          var user = new Parse.User();
+          user.set("username", name);
+          user.set("password", pass);
+          
+          user.signUp(null, {
+              success: function(user){
+                checkLogin();
+          }, error: function(user, error){
+            console.log("signup error:" + error.message);
+          }});
+      });
+      
+        $("#login-form").submit(function(event){
+          event.preventDefault();
+          var name = $("#login-name").val();
+          var pass = $("#login-password").val();
+          Parse.User.logIn(name, pass, {
+              success: function(user){
+                checkLogin();
+//                console.log("Log in Success!");
+                  close_modal("#authentication-div");
+          }, error: function(user, error){
+              shake_modal("#authentication-div");
+                console.log("Log in Error:" + error.message);
+          }})
+      });
+      
+      $("#collocation-example-form").submit(function(event){
+            event.preventDefault();
+            var collocationId = $("#collocation-example-id").val();
+            var collocation = new Collocation({id:collocationId});
+            var sentence = $("#collocation-example-sentence").val();
+            var sentenceTranslation = $("#collocation-example-sentence-translation").val();
+            var use = Parse.User.current();
+            var example = new Example();
+            example.set("sentence", sentence);
+            example.set("sentenceTranslation", sentenceTranslation);
+            example.set("author", use);
+            example.set("belongTo", collocation);
+            example.save({
+                    success: function(obj){
+                        console.log("Example Saved!");
+                    }, error: function(obj, error){
+                        console.log("Example Saved Error:" + error.message);
+                    }});
+      })
+      
+      $("#list-posts").on("click", "a", function(event){
+            event.preventDefault();
+            var id = $(this).attr("href");
+            var query = new Parse.Query(Collocation);
+            query.equalTo("objectId", id);
+            query.include("author");
+            query.find({
+                success: function(results){
+//                console.log(results[0].get("spell"));
+                    var spell = results[0].get("spell");
+                    var translation = results[0].get("translation");
+                    var username = results[0].get("author").get("username");
+                    var id = results[0].id;
+                    $("#collocation-detail-author").html(username);
+                    $("#collocation-detail-translation").html(translation);
+                    $("#popup-window-title").html(spell);
+                    $("#collocation-detail").attr("data-id", id);
+                    $("#collocation-example-id").val(id);
+                    if(Parse.User.current())
+                          {
+                              $("#example-edit-div").show(1, function(){
+                                  $("#collocation-edit-div").fadeOut( 1, function() {
+                                    Modal.open();
+                                });
+                              });
+                          }else{
+                              $("#authentication-a").trigger("click");
+                          }
+            }, error: function(error){
+            
+            }});
+      });
+      
+      function getCollocations()
+      {
+          var query = new Parse.Query(Collocation);
+          query.include("author");
+          query.find({
+                success: function(results){
+                    var output = "";
+                    for (var i in results)
+                    {
+                        var spell = results[i].get("spell");
+                        var translation = results[i].get("translation");
+                        var username = results[i].get("author").get("username");
+                        var id = results[i].id;
+                        output += "<li>";
+                        output += "user : " + username;
+                        output += "<h3><a href='"+id+"'>" + spell + "</a></h3>";
+                        output += "<p>" + translation + "</p>";
+                        output += "</li>";
+                    }
+                    $("#list-posts").html(output);
+              }, error: function(error){
+                    console.log("Query Error:" + error.message);
+              }
+          });
+      }
+      $("#logout").click(function(event){
+            Parse.User.logOut();
+            checkLogin();
+      });
+      getCollocations();
+      $("#authentication-a").leanModal({ top : 200, overlay : 0.4, closeButton: ".modal_close" });
+      
+      
+      //popup window
+       var SHOW_CLASS = 'show',
+              HIDE_CLASS = 'hide',
+              ACTIVE_CLASS = 'active';
+
+          $( '.tabs' ).on( 'click', 'li a', function(e){
+            e.preventDefault();
+            var $tab = $( this ),
+                 href = $tab.attr( 'href' );
+
+             $( '.active' ).removeClass( ACTIVE_CLASS );
+             $tab.addClass( ACTIVE_CLASS );
+
+             $( '.show' )
+                .removeClass( SHOW_CLASS )
+                    .addClass( HIDE_CLASS )
+                .hide();
+
+              $(href)
+                .removeClass( HIDE_CLASS )
+                .addClass( SHOW_CLASS )
+                .hide()
+                .fadeIn( 550 );
+          });
+      
+      
+              function close_modal(modal_id) {
+
+                $("#lean_overlay").fadeOut(200);
+                $(modal_id).css({
+                    'display': 'none'
+                });
+
+            }
+      
+      function shake_modal(modal_id) {
+                $(modal_id).effect( "shake",  {times:8, distance:30}, 400  );
+
+            }
+      window.onload = function(e){ 
+		    
+			Modal.init();
+
+		};
+      $("#opener").click(function(event){
+          if(Parse.User.current())
+          {
+              $("#popup-window-title").html("Add collocations");
+              $("#collocation-edit-div").show(1, function(){
+                  $("#example-edit-div").hide(1, function(){
+                      Modal.open();
+                  });
+              });
+          }else{
+              $("#authentication-a").trigger("click");
+          }
+            
+      });
+      
+      $("#closer").click(function(event){
+          Modal.close();
+      });
+      
+      
+      $("#collocation-submit").click(function(event){
+          Modal.close();
+      }); 
+      $("#collocation-example-submit").click(function(event){
+          Modal.close();
+      }); 
+      
+    </script>
+</body>
+
 </html>
